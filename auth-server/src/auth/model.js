@@ -5,8 +5,10 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
+  email: {type: String, required: true, unique: true},
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true},
+  // findHash: {type: Boolean, unique: true},
 });
 
 userSchema.pre('save', function(next) {
@@ -16,13 +18,14 @@ userSchema.pre('save', function(next) {
 
 
 userSchema.statics.authenticate = function(auth) {
-  let query = {username:auth.username};
-  if ( auth.token ) {
+  let query = {username:auth.username} || {username:auth.email};
+  if (auth.token) {
     let token = jwt.verify(auth.token,process.env.SECRET || 'changethis');
     query = {_id:token.id};
   }
+  console.log(query);
   return this.findOne(query)
-    .then( user => user.comparePassword(auth.password) )
+    .then(user => user.comparePassword(auth.password) )
     .catch(error => error);
 };
 

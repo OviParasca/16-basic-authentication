@@ -1,6 +1,6 @@
 'use strict';
 
-export default (req,res,next) => {
+export default (err, req,res,next) => {
   let error = {error:'Resource Not Found'};
   res.statusCode = 404;
   res.statusMessage = 'Not Found';

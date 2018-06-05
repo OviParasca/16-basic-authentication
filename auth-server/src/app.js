@@ -5,9 +5,7 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 
-
 import authRouter from './auth/router.js';
-
 
 import errorHandler from './middleware/error.js';
 import notFound from './middleware/404.js';
@@ -30,18 +28,17 @@ let server = false;
 
 module.exports = {
   start: (port) => {
-    if(! server) {
+    if (!server) {
       server = app.listen(port, (err) => {
-        if(err) { throw err; }
+        if (err) { throw err; }
         console.log(`Server up on ${port}`);
       });
-    }
-    else {
+    } else {
       console.log('Server is already running');
     }
   },
   stop: () => {
-    server.close( () => {
+    server.close(() => {
       console.log('Server has been stopped');
     });
   },
