@@ -1,7 +1,7 @@
 
 ## Links
-  * Master - https://github.com/codefellows-seattle-javascript-401d24/16-basic-authentication.git
-  * Pull Request - 
+  * Master - https://github.com/jbach197/16-basic-authentication.git
+  * Pull Request - https://github.com/codefellows-seattle-javascript-401d24/16-basic-authentication/pull/1
   * Travis - none yet
   * Heroku - none yet
 
