@@ -1,8 +1,9 @@
-![CF](https://camo.githubusercontent.com/70edab54bba80edb7493cad3135e9606781cbb6b/687474703a2f2f692e696d6775722e636f6d2f377635415363382e706e67) 16: Basic Auth
-===
 
-## Submission Instructions
-  * Follow the instructions in the "Lab Instructions" documentation in the reference folder of the class repository
+## Links
+  * Master - https://github.com/codefellows-seattle-javascript-401d24/16-basic-authentication.git
+  * Pull Request - 
+  * Travis - none yet
+  * Heroku - none yet
 
 ## Learning Objectives  
 * students will be able to create basic authorization middleware
