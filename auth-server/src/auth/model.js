@@ -14,7 +14,7 @@ userSchema.pre('save', function(next) {
   bcrypt.hash(this.password, 10).then(hashedPassword => {
     this.password = hashedPassword;
     next();
-  }).catch(error => {throw error});
+  }).catch(error => {throw error;});
 });
 
 
