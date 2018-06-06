@@ -15,7 +15,12 @@ authRouter.post('/api/v1/signup', (req, res, next) => {
 });
 
 authRouter.get('/api/v1/signin', auth, (req, res, next) => {
-  res.send(req.user.generateToken());
+  res.cookie('Token', req.token);
+  res.send(req.token);
+});
+
+authRouter.get('/api/v1/userprofile', auth, (req, res, next) => {
+  res.send('user access');
 });
 
 export default authRouter;
