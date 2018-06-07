@@ -12,15 +12,8 @@ export default (req, res, next) => {
         } else {
           next();
         }
-      }).catch(next);
-  };
-
-  let getAuth = () => {
-    next({
-      status:401,
-      statusMessage: 'Unauthorized',
-      message: 'Invalid User Credentials',
-    });
+      })
+      .catch(next);
   };
 
   let authenticate = (auth) => {
@@ -34,6 +27,10 @@ export default (req, res, next) => {
     }).catch(next);
   };
 
+  let getAuth =() => {
+    next({status:401,statusMessage:'Unauthorized', message:'Invalid User ID or Password'});
+  };
+
   try {
     let auth = {};
     let authHeader = req.headers.authorization;
@@ -43,10 +40,12 @@ export default (req, res, next) => {
     }
 
     if (authHeader.match(/basic/i)) {
-      let base64Header = authHeader.replace(/Basic\s+/, '');
-      let base64Buf = new Buffer(base64Header, 'base64');
-      let [username, password] = base64Buf.toString().split(':');
-      auth = {username, password};
+      let base64Header = authHeader.replace(/Basic\s+/i, '');
+      let base64Buf = Buffer.from(base64Header, 'base64');
+      let bufferString = base64Buffer.toString();
+      let [username, password] = bufferString.split(':');
+      auth = {username,password};
+      
       authenticate(auth);
     } 
     else if (authHeader.match(/bearer/i)) {
