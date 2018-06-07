@@ -37,7 +37,7 @@ export default (req, res, next) => {
       authenticate(auth, next);
     } 
     // else if (authHeader.match(/bearer/i)) {
-    //   auth.token = authHeader.replace(/Bearer\s+/, '');
+    //   auth.token = authHeader.replace(/bearer\s+/, '');
     //   authenticate(auth, next);
     // }
     else {

@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
   email: {type: String, required: true, unique: true},
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  // findHash: {type: Boolean, unique: true},
 });
 
 userSchema.pre('save', function(next) {
@@ -33,6 +32,9 @@ userSchema.statics.authenticate = function(auth) {
 userSchema.methods.comparePassword = function(password) {
   return bcrypt.compare(password, this.password)
     .then(valid => valid ? this : null );
+    // .then(response => {
+    //   if (err) { throw err; }
+    // }).send(401, 'Incorrect Username or Password');
 };
 
 userSchema.methods.generateToken = function() {

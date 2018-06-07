@@ -12,7 +12,6 @@ import notFound from './middleware/404.js';
 
 let app = express();
 
-
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
