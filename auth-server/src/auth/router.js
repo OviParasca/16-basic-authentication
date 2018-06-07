@@ -18,40 +18,38 @@ authRouter.get('/api/v1/signin', auth, (req, res, next) => {
   res.cookie('Token', req.token);
   res.send(req.token);
   next();
-});
 
-//TO DO: Change route for twitter 
 authRouter.get('/oauth', (req, res, next) => {
   let URL = process.env.CLIENT_URL;
   let code = req.query.code;
 
-  //TO DO: updat for TWITTER
-  superagent.post('https://www.googleapis.com/oauth2/v4/token')
+  
+  superagent.post('https://api.twitter.com/oauth/request_token')
     .type('form')
     .send({
       code: code,
-      client_id: process.env.GOOGLE_CLIENT_ID,
-      client_secret: process.env.GOOGLE_CLIENT_SECRET,
-      redirect_uri: `${process.env.API_URL}/oauth/google/code`,
-      grant_type: 'authorization_code',
+      client_id: process.env.AMAZON_CLIENT_KEY,
+      client_secret: process.env.AMAZON_CLIENT_SECRET,
+      grant_type: 'client_credentials',
+      redirect_uri: `${process.env.API_URL}/oauth/amazon/code`,
     })
     .then( response => {
-      let googleToken = response.body.access_token;
-      console.log('(2) twitter token', twitterToken);
-      return twitterToken;
+      let amazonToken = response.body.access_token;
+      console.log('(2) amazon token', amazonToken);
+      return amazonToken;
     })
-  //TO DO: Update for Twitter
-    .then ( token => {
-      return superagent.get('https://www.googleapis.com/plus/v1/people/me/openIdConnect')
-        .set('Authorization', `Bearer ${token}`)
+ 
+     .then ( token => {
+       return superagent.get('https://www.googleapis.com/plus/v1/people/me/openIdConnect')
+         .set('Authorization', `Bearer ${token}`)
         .then (response => {
-          let user = response.body;
-          console.log('(3) Twitter User', user);
-          return user;
-        });
-    })
-    .then(TwittereUser => {
-      return User.createFromOAuth(twitterUser);
+           let user = response.body;
+           console.log('(3) Amazon User', user);
+           return user;
+         });
+   })
+    .then(amazonUser => {
+      return User.createFromOAuth(amazonUser);
     })
     .then ( user => {
       return user.generateToken();

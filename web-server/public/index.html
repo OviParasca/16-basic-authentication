@@ -7,6 +7,12 @@
         <main>
 
             <div id="oauth"></div>
+            <a href id="LoginWithAmazon">
+              <img border="0" alt="Login with Amazon"
+              src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/
+              btnLWA_gold_156x32.png"
+              width="156" height="32" />
+              </a>
 
             <hr>
 
@@ -114,22 +120,22 @@
         </script>
 
         <script>
-        /* TO DO: UPDATE FOR TWITTER
-
-          let googleURL = "https://accounts.google.com/o/oauth2/v2/auth";
+  
+          let amazonURL = "https://www.amazon.com/ap/oa";
           let options = {
-            client_id:'560654039720-vl4u273l6hl684o5scfd0r58t531g1vt.apps.googleusercontent.com',
-            redirect_uri: 'http://localhost:3000/oauth/google/code',
-            scope: 'email openid profile',
-            prompt: 'consent',
+            client_id:'amzn1.application-oa2-client.eea8f6b78a6d4d2ba3f59ed2235c8b43',
+            redirect_uri: 'http://localhost:3000/oauth/amazon/code',
+            scope: 'profile',
+            popup: true,
             response_type: 'code'
           }
-          */
+          
           let QueryString = Object.keys(options).map( (key,i) => {
             return `${key}=` + encodeURIComponent(options[key]);
           }).join("&");
-          //TO DO: UPDATE FOR TWITTER let authURL = `${googleURL}?${QueryString}`;
-          $('#oauth').append(`<a href="${authURL}">Login With Twitter</a>`);
+          //TO DO: UPDATE FOR Amazon
+           let authURL = `${twitterURL}?${QueryString}`;
+          $('#oauth').append(`<a href="${authURL}">Login With Amazon</a>`);
         </script>
 
 

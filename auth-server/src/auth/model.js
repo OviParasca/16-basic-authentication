@@ -27,6 +27,7 @@ userSchema.statics.createFromOAuth = function(incoming) {
       if (!user) {throw new Error ('User not found');}
       console.log('Welcome back, user.username');
       return user;
+  
     })
   //TO DO: Update deafult to be more secure
     .catch(error => {
