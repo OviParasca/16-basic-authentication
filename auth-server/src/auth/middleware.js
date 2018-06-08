@@ -4,21 +4,37 @@ import User from './model.js';
 
 export default (req, res, next) => {
 
+
+  let authorize = (token) => {
+  
+    User.authorization(token)
+    .then(user => {
+      if (!user) {
+        getAuth();
+      } else {
+        req.user = user;
+        next();
+      }
+    })
+    .catch(next);
+  };
+
   let authenticate = (auth) => {
     User.authenticate(auth)
       .then(user => {
         if (!user) {
           getAuth();
         }
-        req.user = user;
+        req.token = user.generateToken();
+        // req.user = user;
         next();
       });
   };
 
   let getAuth = () => {
-    res.set({
-      'WWW-Authenticate': 'Basic realm="protected secret stuff"',
-    }).send(401);
+    // res.set({
+    //   'WWW-Authenticate': 'Basic realm="protected secret stuff"',
+    // }).send(401);
   };
 
   try {
@@ -36,8 +52,10 @@ export default (req, res, next) => {
       auth = {username, password};
       authenticate(auth, next);
     } else if (authHeader.match(/bearer/i)) {
-      auth.token = authHeader.replace(/bearer\s+/, '');
-      authenticate(auth, next);
+      let token = authHeader.replace(/Bearer\s+/i, '');
+      authorize(token);
+      // auth.token = authHeader.replace(/bearer\s+/, '');
+      // authenticate(auth, next);
     }
   } catch(err) {
     next(err);
