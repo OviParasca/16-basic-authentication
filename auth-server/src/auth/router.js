@@ -20,20 +20,27 @@ authRouter.post('/api/v1/signup', (req, res, next) => {
 });
 
 authRouter.get('/api/v1/signin', auth, (req, res, next) => {
-  res.send(req.user.generateToken());
+  res.cookie('Token', req.token);
+  res.send(req.token);
 });
 
 authRouter.get('/api/v1/show', auth, (req, res, next) => {
-  console.log(req.user)
+  console.log(req.user);
   res.send(req.user);
 });
 
-authRouter.delete('/api/v1/remove', auth, (req, res, next) => {
-  req.user.findOneAndDelete(req.user);
-  res.send(req.user);
+authRouter.post('/api/v1/show', auth, (req, res, next) => {
+  let user = new User(req.body);
+  // console.log(user);
+  // console.log(this.findOne(user));
+  // console.log(this.findOne(req.body));
+  res.send(user);
 });
 
-authRouter.delete('/api/v1/delete/:id', auth, (req,res, next) => {
+authRouter.delete('/api/v1/delete/:id', (req,res, next) => {
+  // console.log(req.user._id);
+  // console.log(req.user);
+  req.user.findOneAndDelete(req.user._id);
   res.send('deleted user');
 });
 

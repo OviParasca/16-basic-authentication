@@ -35,13 +35,9 @@ export default (req, res, next) => {
       let [username, password] = base64Buf.toString().split(':');
       auth = {username, password};
       authenticate(auth, next);
-    } 
-    // else if (authHeader.match(/bearer/i)) {
-    //   auth.token = authHeader.replace(/bearer\s+/, '');
-    //   authenticate(auth, next);
-    // }
-    else {
-      next();
+    } else if (authHeader.match(/bearer/i)) {
+      auth.token = authHeader.replace(/bearer\s+/, '');
+      authenticate(auth, next);
     }
   } catch(err) {
     next(err);
