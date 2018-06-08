@@ -29,10 +29,7 @@
     "morgan": "^1.9.0",
     "nodemon": "^1.17.5",
     "require-dir": "^1.0.0",
-<<<<<<< HEAD:auth-server/package.json
-    "http-errors": "^1.6.3"
-=======
+    "http-errors": "^1.6.3",
     "superagent": "^3.8.2"
->>>>>>> b2047eff4e6be98af37c016ea965d394777a7492:package.json
   }
 }
