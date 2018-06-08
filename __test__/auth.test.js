@@ -1,7 +1,7 @@
 'use strict';
 
 
-const app = require('../../../src/app.js');
+const app = require('../auth-server/src/app.js');
 const superagent = require('superagent');
 
 describe('api/v1/signup', () => {
