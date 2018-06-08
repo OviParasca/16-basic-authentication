@@ -3,8 +3,9 @@
 import express from 'express';
 const authRouter = express.Router();
 
-import User from './model.js';
 import auth from './middleware.js';
+import User from './model.js';
+// import Beer from '../models/beer.js';
 
 authRouter.post('/api/v1/signup', (req, res, next) => {
   if (!req.body.username || !req.body.password || !req.body.email) {
@@ -25,15 +26,28 @@ authRouter.get('/api/v1/signin', auth, (req, res, next) => {
 
 authRouter.get('/api/v1/users', (req, res, next) => {
   User.find({})
-  .then(data => { sendJSON(res,  data)})
+  .then(data => { sendJSON(res, data) })
   .catch(next);
 });
 
 authRouter.get('/api/v1/users/:id', (req, res, next) => {
   User.findOne({_id: req.params.id})
-  .then(data => { sendJSON(res,  data)})
+  .then(data => { sendJSON(res, data)})
   .catch(next);
 });
+
+
+// authRouter.post('/api/v1/beers', (req, res, next) => {
+//   Beer.find({})
+//   .then(data => { sendJSON(res, data)})
+//   .catch(next);
+// });
+
+// authRouter.post('/api/v1/beers', auth, (req, res, next) => {
+//   let beer = new Beer(req.body);
+//   console.log(beer);
+//   res.send(beer);
+// });
 
 
 // authRouter.delete('/api/v1/:id', (req,res, next) => {
