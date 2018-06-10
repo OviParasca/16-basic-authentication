@@ -5,7 +5,7 @@ const authRouter = express.Router();
 
 import User from './model.js';
 import auth from './middleware.js';
-authRouter.param('user', User);
+// authRouter.param('user', User);
 
 
 authRouter.post('/api/v1/signup', (req, res, next) => {
@@ -19,24 +19,49 @@ authRouter.post('/api/v1/signup', (req, res, next) => {
     .catch(next);
 });
 
-authRouter.get('/api/v1/signin', auth, (req, res, next) => {
-  res.send(req.user.generateToken());
+authRouter.get('/api/v1/signin', auth, (req, res, next) => {  //eslint-disable-line
+  console.log(`\nToken: ${req.token}`);
+  res.cookie('Token', req.token);
+  res.send(req.token);
 });
 
-authRouter.get('/api/v1/show', auth, (req, res, next) => {
-  console.log(req.user)
-  res.send(req.user);
+authRouter.get('/api/v1/users', (req, res, next) => {
+  User.find({})
+    .then(data => { sendJSON(res,  data);})
+    .catch(next);
 });
 
-authRouter.delete('/api/v1/remove', auth, (req, res, next) => {
-  req.user.findOneAndDelete(req.user);
-  res.send(req.user);
+authRouter.get('/api/v1/users/:id', (req, res, next) => {
+  User.findOne({_id: req.params.id})
+    .then(data => { sendJSON(res,  data);})
+    .catch(next);
 });
 
-authRouter.delete('/api/v1/delete/:id', auth, (req,res, next) => {
-  res.send('deleted user');
-});
+// authRouter.post('/api/v1/show', auth, (req, res, next) => {
+// let user = new User(req.body);
+// res.send(user);
+// });
+
+// authRouter.post('/api/v1/getme', auth, (req, res, next) => {
+//   let user = new User(req.body);
+//   req.user.findOne();
+//   res.send(user);
+// });
 
 
+// authRouter.delete('/api/v1/:id', (req,res, next) => {
+//   console.log(req.user._id);
+//   // console.log(req.user);
+//   req.user.findOneAndDelete(req.user._id);
+//   res.send('deleted user');
+// });
+
+let sendJSON = (res, data) => {
+  res.statusCode = 200;
+  res.statusMessage = 'OK';
+  res.setHeader('Content-Type', 'application/json');
+  res.write(JSON.stringify(data));
+  res.send();
+};
 
 export default authRouter;
