@@ -12,9 +12,9 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function(next) {
   bcrypt.hash(this.password, 10).then(hashedPassword => {
-      this.password = hashedPassword;
-      next();
-    }).catch( error => {throw error;} );
+    this.password = hashedPassword;
+    next();
+  }).catch( error => {throw error;} );
 });
 
 
@@ -23,7 +23,7 @@ userSchema.statics.authenticate = function(auth) {
   if ( auth.token ) {
     let token = jwt.verify(auth.token,process.env.SECRET || 'changethis');
     query = {_id:token.id};
-  };
+  }
   return this.findOne(query)
     .then( user => user.comparePassword(auth.password) )
     .catch(error => error);
@@ -40,9 +40,9 @@ userSchema.statics.authorize = function(token) {
 
 userSchema.methods.comparePassword = function(password) {
   return bcrypt.compare(password, this.password).then(valid => valid ? this : null);
-    // .then(response => {
-    //   if (err) { throw err; }
-    // }).send(401, 'Incorrect Username or Password');
+  // .then(response => {
+  //   if (err) { throw err; }
+  // }).send(401, 'Incorrect Username or Password');
 };
 
 userSchema.methods.generateToken = function() {
