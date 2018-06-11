@@ -18,15 +18,22 @@ userSchema.pre('save', function(next) {
 });
 
 
-userSchema.statics.authenticate = function(auth) {
-  let query = {username:auth.username};
-  if ( auth.token ) {
-    let token = jwt.verify(auth.token,process.env.SECRET || 'changethis');
-    query = {_id:token.id};
+userSchema.statics.authenticate = function({username, password, token}) {
+  let query = {username};
+  if ( token ) {
+    let jwtRes = jwtRes.verify(jwtRes,process.env.SECRET || 'changethis');
+    query = {_id:jwtRes.id};
   };
+  console.log(`query to mongoDB: ${JSON.stringify(query)}`)
   return this.findOne(query)
-    .then( user => user.comparePassword(auth.password) )
-    .catch(error => error);
+    .then( user => {
+      console.log(`Got a user: ${JSON.stringify(user)}`)
+      return user.comparePassword(password) 
+    })
+    .catch(error => {
+      console.log(error);
+      return error
+    });
 };
 
 userSchema.statics.authorize = function(token) {
@@ -39,6 +46,7 @@ userSchema.statics.authorize = function(token) {
 };
 
 userSchema.methods.comparePassword = function(password) {
+  console.log(`Current password: ${password}, saved password: ${this.password}`);
   return bcrypt.compare(password, this.password).then(valid => valid ? this : null);
     // .then(response => {
     //   if (err) { throw err; }

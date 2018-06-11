@@ -25,6 +25,7 @@ export default (req, res, next) => {
         if (!user) {
           getAuth();
         }
+        
         req.token = user.generateToken();
         // req.user = user;
         next();
@@ -34,13 +35,13 @@ export default (req, res, next) => {
   let getAuth = () => {
     // res.set({
     //   'WWW-Authenticate': 'Basic realm="protected secret stuff"',
-    // }).send(401);
+    // }).send(401);    
+    // next({status:401, statusMessage:'Unauthorized', message:'Invalid User ID/Password'});
   };
 
   try {
     let auth = {};
     let authHeader = req.headers.authorization;
-
     if (!authHeader) {
       getAuth();
     }

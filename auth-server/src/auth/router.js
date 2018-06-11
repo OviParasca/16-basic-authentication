@@ -62,7 +62,7 @@ let sendJSON = (res, data) => {
   res.statusMessage = 'OK';
   res.setHeader('Content-Type', 'application/json');
   res.write(JSON.stringify(data));
-  res.send();
+  res.end();
 };
 
 export default authRouter;
