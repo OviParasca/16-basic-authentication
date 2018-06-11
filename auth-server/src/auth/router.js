@@ -14,11 +14,11 @@ authRouter.post('/api/v1/signup', (req, res, next) => {
 
   let user = new User(req.body);
   user.save()
-  .then(user => res.send(user.generateToken()))
-  .catch(next);
+    .then(user => res.send(user.generateToken()))
+    .catch(next);
 });
 
-authRouter.get('/api/v1/signin', auth, (req, res, next) => {
+authRouter.get('/api/v1/signin', auth, (req, res, next) =>  { //eslint-disable-line 
   console.log(`\nToken: ${req.token}`);
   res.cookie('Token', req.token);
   res.send(req.token);
@@ -26,14 +26,14 @@ authRouter.get('/api/v1/signin', auth, (req, res, next) => {
 
 authRouter.get('/api/v1/users', (req, res, next) => {
   User.find({})
-  .then(data => { sendJSON(res, data) })
-  .catch(next);
+    .then(data => { sendJSON(res, data) ;})
+    .catch(next);
 });
 
 authRouter.get('/api/v1/users/:id', (req, res, next) => {
   User.findOne({_id: req.params.id})
-  .then(data => { sendJSON(res, data)})
-  .catch(next);
+    .then(data => { sendJSON(res, data);})
+    .catch(next);
 });
 
 

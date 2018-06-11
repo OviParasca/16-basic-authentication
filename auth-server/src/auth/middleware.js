@@ -8,15 +8,15 @@ export default (req, res, next) => {
   let authorize = (token) => {
   
     User.authorization(token)
-    .then(user => {
-      if (!user) {
-        getAuth();
-      } else {
-        req.user = user;
-        next();
-      }
-    })
-    .catch(next);
+      .then(user => {
+        if (!user) {
+          getAuth();
+        } else {
+          req.user = user;
+          next();
+        }
+      })
+      .catch(next);
   };
 
   let authenticate = (auth) => {
